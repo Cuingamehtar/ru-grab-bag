@@ -1,26 +1,26 @@
-
-function getTranslationModules() {
-    const knownTranslationModules = ["ru-ru", "pf2e-ru", "PF2E-RUB"];
-
-    return knownTranslationModules.map(n => game.modules.get(n)).filter(m => m);
-}
-
-function getSupportedActiveModules(translationModule) {
-    return {
-        "translationModuleId": translationModule.id, "translatedModules": translationModule.languages
-            .filter(l => l.module && game.modules.get(l.module)?.active)
-            .map(l => l.module)
-    };
-}
-
-function getModulesWithConflictTranslations(translationModules) {
-    let translations = translationModules.map(t => getSupportedActiveModules(t));
-    let uniqueTranslatedModules = translations.map(t => t.translatedModules).reduce((a, c) => new Set([...a, ...c]));
-    let conflictModules = uniqueTranslatedModules.map(m => ({ "id": m, "translatedBy": translations.filter(t => t.translatedModules.has(m)).map(t => t.translationModuleId) })).filter(m => m.translatedBy.length > 1);
-    return conflictModules;
-}
-
 Hooks.once('init', async function () {
+
+    function getTranslationModules() {
+        const knownTranslationModules = ["ru-ru", "pf2e-ru", "PF2E-RUB"];
+
+        return knownTranslationModules.map(n => game.modules.get(n)).filter(m => m);
+    }
+
+    function getSupportedActiveModules(translationModule) {
+        return {
+            "translationModuleId": translationModule.id, "translatedModules": translationModule.languages
+                .filter(l => l.module && game.modules.get(l.module)?.active)
+                .map(l => l.module)
+        };
+    }
+
+    function getModulesWithConflictTranslations(translationModules) {
+        let translations = translationModules.map(t => getSupportedActiveModules(t));
+        let uniqueTranslatedModules = translations.map(t => t.translatedModules).reduce((a, c) => new Set([...a, ...c]));
+        let conflictModules = uniqueTranslatedModules.map(m => ({ "id": m, "translatedBy": translations.filter(t => t.translatedModules.has(m)).map(t => t.translationModuleId) })).filter(m => m.translatedBy.length > 1);
+        return conflictModules;
+    }
+
     let translationModules = getTranslationModules();
     let conflictTranslations = getModulesWithConflictTranslations(translationModules);
 
@@ -72,7 +72,6 @@ Hooks.once('init', async function () {
                     this._loadTranslationFile(path)
                 );
 
-                console.log("ru-grab-bag: added path for module " + m.id);
             }
         })
 
