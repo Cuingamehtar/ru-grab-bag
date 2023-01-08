@@ -66,9 +66,7 @@ Hooks.once('init', async function () {
             scope: "world",
             config: true,
             restricted: true,
-            onChange: (value) => {
-                window.location.reload();
-            },
+            requiresReload: true,
         });
 
     }
@@ -85,9 +83,7 @@ Hooks.once('init', async function () {
             scope: "world",
             config: true,
             restricted: true,
-            onChange: (value) => {
-                window.location.reload();
-            },
+            requiresReload: true,
         });
 
     }
@@ -104,9 +100,7 @@ Hooks.once('init', async function () {
             scope: "world",
             config: true,
             restricted: true,
-            onChange: (value) => {
-                window.location.reload();
-            },
+            requiresReload: true,
         });
     })
 
